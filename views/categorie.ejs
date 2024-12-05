@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head'); %>
+    
+    <link rel="stylesheet" type="text/css"  href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"  />
+    <meta charset="UTF-8">
+  
+  
+</head>
+<body >
+
+
+<div id="wrapper">
+    <%- include('./partials/sidebar', {page:"categorie"}); %>
+     <!-- Content Wrapper -->
+     <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content " >
+        <%- include('./partials/topbar'); %>
+         <!-- Page Heading -->
+    <div class="d-flex align-items-center justify-content-between mb-4 px-sm-4">
+        <h1 class="h3 mb-0 text-gray-800">Categorie</h1>
+        <a href="/addcategorie" class=" d-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus"></i> Ajouter Categorie</a>
+    </div>
+          
+      <!-- DataTales Example -->
+      <div class="mx-sm-3">
+        <div class="card shadow mb-4 ">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary"> Categorie Listes</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive uk-table uk-table-striped uk-table-justify">
+                    <table  id="produits" class="table table-bordered"  width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>categorie</th>
+                                <th>code</th>
+                                
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                       
+                    </table>
+                </div>
+            </div>
+        </div>
+      </div>
+      
+    
+      </div>
+      </div>
+      
+      </div>
+   
+      <footer>
+        <%- include('./partials/footer'); %>
+    </footer>
+    
+    </body>
+      
+    
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script>
+        $("#loading").show();
+       data=<%-JSON.stringify(categories) %>
+
+       
+       console.log(data)
+        $(document).ready(async function () {
+            
+         await   $('#produits').DataTable( {
+                
+ 
+    data:data,
+    columns: [
+        { data: 'id' },
+        { data: 'image', render: function(data){
+            
+            return `<img src="uploads/category${data}"        >`
+        } },
+        { data: 'code' },
+       
+     
+        
+        { data: 'id',render: function(data){
+        return  `<a href="/editcategorie/${data}" class="px-1"> <i class="fa-solid fa-pen-to-square" style="color: #50c878;font-size:20px"></i></a>
+        <a href="/deletecategorie/${data}"> <i class="fa-solid fa-trash" style="color: #f33939;font-size:20px"></i></a>                                                                                               `
+        } }
+    ]
+   
+} );
+        });
+        $("#loading").hide();
+    </script>
+    </html>

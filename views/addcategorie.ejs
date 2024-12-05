@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head'); %>
+    
+    
+    <meta charset="UTF-8">
+  
+  
+</head>
+<style>
+  * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Jost', sans-serif;
+  background-color: whitesmoke;
+}
+
+
+.app {
+  max-width: 1224px;
+  width: 92%;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.header h2 {
+  min-width: fit-content;
+}
+
+.server-message {
+  width: 100%;
+  padding: 16px;
+  border-radius: 5px;
+}
+
+.input-div {
+  width: 100%;
+  height: 200px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 2px dotted black;
+  background-color: white;
+  position: relative;
+}
+
+
+
+.queued-div .image {
+  height: 200px;
+  width: 180px;
+  text-align: center;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  position: relative;
+}
+.queued-div {
+  width: 100%;
+  height: 210px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  border: 2px dotted black;
+  background-color: white;
+  position: relative;
+}
+
+
+
+
+.saved-div .image:nth-child(4n),
+.queued-div .image:nth-child(4n) {
+  margin-right: 0;
+}
+.queued-div p{
+  display: none;
+  position: absolute;
+margin-left: auto;
+margin-right: auto;
+left: 0;
+right: 0;
+text-align: center;
+z-index: 1000;
+ 
+}
+
+.saved-div .image img,
+.queued-div .image img {
+  height: 100%;
+
+}
+
+.saved-div .image span,
+.queued-div .image span {
+ 
+  cursor: pointer;
+  font-size: 100px;
+  color: #0b5ed7;
+opacity: 0;
+  
+  position: absolute;
+  top: 50%;
+  left:50%;
+  margin: auto;
+  transform: translate(-50%, -50%);
+}
+
+
+.file{
+  display: none;
+}
+.saved-div .span--hidden,
+.queued-div .span--hidden {
+  visibility: hidden;
+}
+</style>
+<body >
+
+
+<div id="wrapper">
+    <%- include('./partials/sidebar', {page:"produit"}); %>
+     <!-- Content Wrapper -->
+     <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content " >
+        <%- include('./partials/topbar'); %>
+         <!-- Page Heading -->
+    <div class=" mb-4 container-sm">
+        <h1 class="h3 mb-0 text-gray-800">Ajouter Categorie</h1>
+    </div>
+          
+      <!-- form Example -->
+      <div class="mx-3">
+        <div class="card shadow mb-4 ">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary"> Categorie Listes</h6>
+            </div>
+            <div class="card-body">
+                <form method="post" action="/addcategorie" id="saved-form" enctype="multipart/form-data">
+                  
+
+                      
+                          <div class="form-group ">
+                            <label for="code"> Code</label>
+                            <input type="text" class="form-control" id="code" name="code" placeholder="code">
+                          </div>
+                          <div class="form-group ">
+                            <div class="pb-2"> Categorie image</div>
+                            <div class="card">
+                              <div class="card-header ">
+                                <h6 class="m-0 font-weight-bold ">drag et drop  Categorie image <label for="category" class="btn btn-primary"> <i class="fas fa-upload"></i> upload </label></h6>
+                                
+                                <input type="file" class="file" class="form-control" id="category" name="category" placeholder="medias" >
+                                
+                              </div>
+                              <div class="card-body">
+                                <div ondrop="dropfile(event)"  ondragleave="dragenterfile(event)"  ondragover="dragoverfile(event)" id="div-category" class=" queued-div ">
+                                  <p>Drag & drop categorie  <label for="categorie" class="btn btn-primary"> <i class="fas fa-upload"></i>  </label></p>
+                                  
+                                
+                                </div>
+                              </div>
+                            </div>
+                           
+
+                            
+                          </div>
+                         
+                         
+                        
+                    
+                           
+                            <button type="submit" class="btn btn-primary  col mt-3 ">Ajouter Categorie</button>
+                           
+                    
+                  </form>
+            </div>
+        </div>
+      </div>
+      <div id="audio">
+
+      </div>
+     
+      
+    
+      </div>
+      </div>
+      
+      </div>
+   
+      <footer>
+        <%- include('./partials/footer'); %>
+    </footer>
+    
+    </body>
+      <script>
+         let queuedImagesArray =[];
+
+    savedForm = document.querySelector("#saved-form")
+    queuedForm = document.querySelector("#queued-form")
+    savedDiv = document.querySelector('.saved-div')
+    queuedDiv = document.querySelector('.queued-div')
+    inputDiv = document.querySelector('.input-div')
+    input = document.querySelector('#category')
+
+    serverMessage = document.querySelector('.server-message')
+
+    deleteImages = [];
+        function dragoverfile(e)
+{
+  $("#category").find('.image').hide()
+  //$('#div-upload').find('.image').show()
+
+// Prevent default behavior (Prevent file from being opened)
+e.preventDefault();
+}
+function dragenterfile(e)
+{
+  $("#category").find('.image').show()
+
+// Prevent default behavior (Prevent file from being opened)
+e.preventDefault();
+}
+
+function dropfile(e)  {
+ 
+  $("#category").find('.image').hide()
+
+  e.preventDefault();
+  // access the user uploaded image/s
+  const files = e.dataTransfer.files
+    
+  for (let i = 0; i < files.length; i++) {
+    if (!files[i].type.match("image")) continue; // only images allowed
+    // Remove any duplicate images
+    if (queuedImagesArray.every(image => image.name !== files[i].name))
+     queuedImagesArray.push(files[i])
+  }
+  console.log(queuedImagesArray)
+  // display the uploaded images on the screen
+  displayQueuedImages()
+}
+function sendQueuedImagesToServer(form) {
+  $("#loading").show();
+ form.preventDefault();
+
+ 
+ if($('#code').val()==""){
+  $("#loading").hide();
+  alertnot("le champ categorie code est obligatoire ");
+  return;
+ };
+ $('#category').val('')
+const formData = new FormData(form.target);
+
+// append the images from the queuedImages array in the formData 
+
+ formData.append(`category`, queuedImagesArray[0])
+
+
+// Make a fetch request to the server with the formData in the body
+fetch("addcategorie", {
+ method: "POST",
+ body: formData
+})
+// Catch the response
+.then(async response => {
+ // If response status is not 200, throw an error
+ if(response.status !== 200) {
+  var audio = document.getElementById("audio");
+  $("#loading").hide();
+        audio.innerHTML+="  <audio><source src='assets/mp3/notif.mp3' type='audio/mp3'></audio>"
+        
+            audio.lastElementChild.play();
+        
+  UIkit.notification({
+   message: ' <i class="fa-sharp fa-solid fa-bell fa-beat"></i> '+await response.json(),
+   pos: 'top-right',
+ 
+   timeout: 5000
+});
+
+}
+ // Otherwise reload the page)
+ else window.location.href = '/categories';
+})
+// display the error message
+.catch( error => { 
+console.log(error)
+});
+
+ 
+
+}
+   
+function displayQueuedImages() {
+  // Create a variable to store HTML
+  let images = "";
+  // Iterate the queuedImages array
+ queuedImagesArray.forEach((image, index) => {
+  // For each image, create the following HTML and add it to the images variable
+    images += `<div class="image mx-1">
+                <img  src="${URL.createObjectURL(image)}" alt="image">
+                <span class="fas fa-trash-alt middle"  onclick="deleteQueuedImage(${index})"></span>
+              </div>`;
+  });
+  console.log( document.getElementById("div-category"))
+
+  // Add the variable to the queuedDiv to display images on the screen
+  document.getElementById("div-category").innerHTML = images;
+  $(".image").hover(function(){
+  $(this).css("opacity","0.87")
+  $(this).find( "span" ).css("opacity","1")
+  }, function(){
+    $(this).css("opacity","1")
+  $(this).find( "span" ).css("opacity","0")
+});
+}
+
+function deleteQueuedImage(index) {
+  // remove the image from the queuedImages array
+ queuedImagesArray.splice(index, 1);
+  // call on the displayQueuedImages function to update the images you see on the queuedDiv container
+  displayQueuedImages();
+} 
+
+
+  
+
+
+$(".queued-div").hover(function(){
+
+  $(this).find( "p" ).fadeIn()
+  }, function(){
+    
+  $(this).find( "p" ).fadeOut()
+});
+
+
+savedForm.addEventListener("submit", function(e) {
+  sendQueuedImagesToServer(e)
+    }, true);
+//document.querySelector("#saved-form").addEventListener('submit',(event)=>{sendQueuedImagesToServer( event)})
+input.addEventListener("change", () => {
+  // access the user uploaded image/s
+  const files = input.files;
+  // add each of them to the queriedImages array
+  for (let i = 0; i < files.length; i++) {
+    queuedImagesArray.push(files[i])
+  }
+  // reset the form to it's default values
+  
+  // display the uploaded images on the screen
+  displayQueuedImages()
+})
+
+ 
+
+        
+      </script>
+   
+    </html>

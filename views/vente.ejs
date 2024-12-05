@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head'); %>
+    
+    <link rel="stylesheet" type="text/css"  href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"  />
+    <meta charset="UTF-8">
+  
+  
+</head>
+<body >
+
+
+<div id="wrapper">
+    <%- include('./partials/sidebar', {page:"vente"}); %>
+     <!-- Content Wrapper -->
+     <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <%- include('./partials/topbar'); %>
+        
+          
+      <!-- DataTales Example -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Mes produits Listes</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table  id="ventes" class="table table-bordered"  width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>produit</th>
+                            <th>destination</th>
+                            <th>quantite</th>
+                            <th>prixtotal</th>
+                          
+                           
+                        </tr>
+                    </thead>
+                   
+                </table>
+            </div>
+        </div>
+    </div>
+    
+      </div>
+      </div>
+      
+      </div>
+   
+      <footer>
+        <%- include('./partials/footer'); %>
+    </footer>
+    
+    </body>
+      
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script>
+         var data = <%- JSON.stringify(produits) %>  
+         
+  
+        $(document).ready(function () {
+            $('#ventes').DataTable( {
+              
+    data: data,
+    processing: true,
+       
+    columns: [
+        { data: 'id' },
+      
+        { data: 'produit.titre' },
+        
+        { data: 'destination' },
+        { data: 'qte' },
+        { data:  'produit' ,render : function (data, type,row) {
+                         return "<span class='text-success'>"+(data.prix* row.qte)+"MAD</span>";
+        } },
+       
+        
+    ]
+} );
+        });
+    </script>
+    </html>

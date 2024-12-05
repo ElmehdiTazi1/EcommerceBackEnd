@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head'); %>
+</head>
+<body >
+
+
+<div id="wrapper">
+    <%- include('./partials/sidebar', {page:"dashboard"}); %>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <%- include('./partials/topbar'); %>
+            <div class="container-fluid">
+    
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+      
+    </div>
+    
+    <!-- Content Row -->
+    <div class="row">
+    
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Revenu Quotidien</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%=revenuquotidien %></div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        
+    
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                Revenu  mensuel</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><%=revenumensuel %></div>
+                               
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Revenu  annuel</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><%=revenuannuel %></div>
+                               
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Moyenne Revenu  quotidien</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><%=revenuavgquotidien %></div>
+                               
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!-- Content Row -->
+     <div class="row">
+    
+       
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Les ventes par jour cette année</h6>
+                    
+                </div>
+                <!-- Card Body -->
+                <div class="card-body" >
+                      
+                    <canvas class="Chartgraph" id="salesyearChart"></canvas>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Les ventes par mois cette année</h6>
+                    
+                </div>
+                <!-- Card Body -->
+                <div class="card-body" >
+                      
+                    <canvas class="Chartgraph"  id="salesmonthChart"></canvas>
+                   
+                </div>
+            </div>
+        </div>
+       
+    </div>
+    <!-- Content Row -->
+    <div class="row">
+    
+       
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Les Plus Vendu produit graph</h6>
+                    
+                </div>
+                <!-- Card Body -->
+                <div class="card-body" >
+                      
+                    <canvas class="Chartgraph" id="vendugraph"></canvas>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Les Plus Favorable produit graph</h6>
+                    
+                </div>
+                <!-- Card Body -->
+                <div class="card-body" >
+                      
+                    <canvas class="Chartgraph"  id="favgraph"></canvas>
+                   
+                </div>
+            </div>
+        </div>
+       
+    </div>
+     <div class="row">
+    
+       
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Les Plus favorable Produits</h6>
+                    
+                </div>
+                <!-- Card Body -->
+                <div class="card-body" >
+                    <div class="row pb-1" style="border-bottom: solid rgba(128, 128, 128, 0.366) 1px; ">
+                        <div class="col-3 text-center">
+                           produit
+                       </div>
+                       <div class="col-6">
+                          titre
+                       </div>
+                       <div class="col-3 text-center">
+                        Nombre
+                     </div>
+                       
+                    </div>
+                    <% for(let produit of produitfav) { %>
+                        <div class="row py-1" style="border-bottom: solid rgba(128, 128, 128, 0.366) 1px; ">
+                            <div class="col-3 text-center">
+                                <img  src="/uploads/avatar<%=produit.background%>" alt="" srcset="">
+                           </div>
+                           <div class="col-6">
+                              <p> <%=produit.titre%></p>
+                           </div>
+                           <div class="col-3 text-center">
+                              <%=produit.count%>
+                           </div>
+                        </div>
+                        
+                     
+                     <% } %>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Les Plus Vendu Produits</h6>
+                    
+                </div>
+                <!-- Card Body -->
+                <div class="card-body" >
+                    <div class="row pb-1" style="border-bottom: solid rgba(128, 128, 128, 0.366) 1px; ">
+                        <div class="col-3 text-center">
+                           produit
+                       </div>
+                       <div class="col-7 ">
+                          titre
+                       </div>
+                       <div class="col-2 text-center">
+                        Nombre
+                     </div>
+                       
+                    </div>
+                    <% for(let produit of produitsal) { %>
+                        <div class="row py-1" style="border-bottom: solid rgba(128, 128, 128, 0.366) 1px; ">
+                            <div class="col-3 text-center">
+                                <img  src="/uploads/avatar<%=produit.background%>" alt="" srcset="">
+                           </div>
+                           <div class="col-7">
+                              <p> <%=produit.titre%></p>
+                           </div>
+                           <div class="col-2 text-center">
+                              <%=produit.count%>
+                           </div>
+                        </div>
+                        
+                     
+                     <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+   
+</div>
+    
+   
+    
+   
+    
+    </div>
+        </div>
+        
+        </div>
+</div>
+
+
+<footer>
+    <%- include('./partials/footer'); %>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('salesyearChart').getContext('2d');
+    const ctx2 = document.getElementById('salesmonthChart').getContext('2d');
+    const ctx3 = document.getElementById('favgraph').getContext('2d');
+    const ctx4 = document.getElementById('vendugraph').getContext('2d');
+let dates=getDaysOfYear();
+let dataventeyear=<%- JSON.stringify( dataventeyear)  %>;
+let dataventepermonthyear=<%- JSON.stringify( dataventepermonthyear)  %>;
+let  produitfav=<%- JSON.stringify( produitfav)  %>;
+let  produitsal=<%- JSON.stringify( produitsal)  %>;
+const months = [
+  // English
+  ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  // French
+  ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
+];
+chart("Ventes",getSalesData(dataventeyear,dates) ,dates,'les jours de '+new Date().getFullYear(),ctx)
+chart("Ventes",getSalesData(dataventepermonthyear,months[0]) ,months[1],'les mois de '+new Date().getFullYear(),ctx2)
+chart("Produits",getSalesData(produitfav,produitfav.map((map)=> map.titre ) ),produitfav.map((map)=> map.titre),'les plus Favorable produit',ctx3,"bar");
+chart("Produits",getSalesData(produitsal,produitsal.map((map)=> map.titre ) ),produitsal.map((map)=> map.titre),'les plus vendu produit ',ctx4,"bar")
+function getDaysOfYear() {
+  const days = [];
+  const start = new Date(new Date().getFullYear()+'-01-01');
+  const end = new Date(new Date().getFullYear()+'-12-31');
+  const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
+  const sales = [];
+  for (let day = start; day <= end; day.setTime(day.getTime() + oneDay)) {
+    
+    days.push(day.toLocaleDateString());
+  }
+  return days;
+}
+
+function getSalesData(data,dates) {
+   sales = [];
+
+sales=dates.map((date) => {
+    console.log(date)
+        const sale = data.find((sale) => 
+           
+           ( sale.date ?  sale.date: sale.titre) == date);
+        
+        return sale ? (sale.sales ? sale.sales : sale.count ) : 0;
+      })
+     
+      return sales;
+ 
+}
+</script>
+</body>
+</html>
